@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Blockly Demo: Resizable Blockly</title>
+  <link id="blocklycss" rel="stylesheet" data-rtl="blockly/pxt/rtlblockly.css" href="blockly/css/blockly.css" type="text/css">
+  <link rel="stylesheet" href="blockly/css/icon.min.css">
+  <script src="blockly/blockly_compressed.js"></script>
+  <script src="blockly/blocks_compressed.js"></script>
+  <script src="blockly/msg/js/en.js"></script>
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    body {
+      background-color: #fff;
+      overflow: hidden;
+    }
+    h1 {
+      font-weight: normal;
+      font-size: 140%;
+    }
+    table {
+      height: 100%;
+      width: 100%;
+    }
+    #blocklyArea {
+      height: 99%;
+    }
+    span.blocklyTreeIconCustom::before {
+      content: "\f12e";
+      vertical-align: middle
+    }
+
+  </style>
+</head>
+<body>
+  <table>
+    <tr>
+      <td>
+        <h1>PXT Blockly Static Example</h1>
+      </td>
+    </tr>
+    <tr>
+      <td id="blocklyArea">
+        <div id="blocklyDiv" style="position: absolute"></div>
+      </td>
+    </tr>
+  </table>
+
+
+
+  <xml id="toolbox" style="display: none">
+    <category name="If" iconclass="blocklyTreeIconCustom" colour="230">
+        <block type="controls_if"></block>
+        <block type="controls_if">
+          <mutation else="1"></mutation>
+        </block>
+        <block type="controls_if">
+          <mutation elseif="1" else="1"></mutation>
+        </block>
+      </category>
+      <category name="Boolean" iconclass="blocklyTreeIconCustom" colour="130">
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_negate"></block>
+        <block type="logic_boolean"></block>
+        <block type="logic_null"></block>
+        <block type="logic_ternary"></block>
+      </category>
+
+    <category name="Loops" iconclass="blocklyTreeIconloops" colour="30">
+      <block type="controls_repeat_ext">
+        <value name="TIMES">
+          <block type="math_number">
+            <field name="NUM">10</field>
+          </block>
+        </value>
+      </block>
+      <block type="controls_whileUntil"></block>
+      <block type="controls_for">
+        <field name="VAR">i</field>
+        <value name="FROM">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="TO">
+          <block type="math_number">
+            <field name="NUM">10</field>
+          </block>
+        </value>
+        <value name="BY">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+      </block>
+      <block type="controls_forEach"></block>
+      <block type="controls_flow_statements"></block>
+    </category>
+    <category name="Math" iconclass="blocklyTreeIconCustom" colour="50">
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+      <block type="math_single"></block>
+      <block type="math_trig"></block>
+      <block type="math_constant"></block>
+      <block type="math_number_property"></block>
+      <block type="math_round"></block>
+      <block type="math_on_list"></block>
+      <block type="math_modulo"></block>
+      <block type="math_constrain">
+        <value name="LOW">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="HIGH">
+          <block type="math_number">
+            <field name="NUM">100</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_random_int">
+        <value name="FROM">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="TO">
+          <block type="math_number">
+            <field name="NUM">100</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
+    </category>
+ 
+  </xml>
+
+  <script>
+    var blocklyArea = document.getElementById('blocklyArea');
+    var blocklyDiv = document.getElementById('blocklyDiv');
+    var demoWorkspace = Blockly.inject(blocklyDiv,
+        {media: 'blockly/media/',
+         toolbox: document.getElementById('toolbox')});
+    var onresize = function(e) {
+      // Compute the absolute coordinates and dimensions of blocklyArea.
+      var element = blocklyArea;
+      var x = 0;
+      var y = 0;
+      do {
+        x += element.offsetLeft;
+        y += element.offsetTop;
+        element = element.offsetParent;
+      } while (element);
+      // Position blocklyDiv over blocklyArea.
+      blocklyDiv.style.left = x + 'px';
+      blocklyDiv.style.top = y + 'px';
+      blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
+      blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
+    };
+    window.addEventListener('resize', onresize, false);
+    onresize();
+    Blockly.svgResize(demoWorkspace);
+  </script>
+</body>
+</html>
